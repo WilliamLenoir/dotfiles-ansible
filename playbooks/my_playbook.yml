@@ -25,4 +25,7 @@
     - ansible.builtin.include_role:
         name: fzf
       when: ansible_os_family == "Darwin" # install for Mac OS only
+    - ansible.builtin.include_role:
+        name: tools
+      when: ansible_os_family == "Darwin" # install for Mac OS only
 
