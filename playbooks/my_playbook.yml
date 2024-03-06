@@ -1,0 +1,28 @@
+- name: Test new role from within this playbook
+  become: true
+  hosts: my-laptop
+  gather_facts: true # mandatory to define the OS type
+  vars_files:
+    - ../vars/common.yml
+  tasks:
+    - name: Update the packages cache
+      apt:
+        update_cache: true
+
+    - name: Upgrade the packages
+      apt:
+        upgrade: full
+
+    - ansible.builtin.include_role:
+        name: nvim
+    - ansible.builtin.include_role:
+        name: zsh
+    - ansible.builtin.include_role:
+        name: tmux
+    - ansible.builtin.include_role:
+        name: kitty
+      when: ansible_os_family == "Darwin" # install for Mac OS only
+    - ansible.builtin.include_role:
+        name: fzf
+      when: ansible_os_family == "Darwin" # install for Mac OS only
+

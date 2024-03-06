@@ -1,0 +1,8 @@
+# tasks file for fzf
+
+- name: Install fzf
+  apt:
+    name: fzf
+
+- name: Install fzf key bindings and fuzzy completion
+  shell: "$(brew --prefix)/opt/fzf/install"

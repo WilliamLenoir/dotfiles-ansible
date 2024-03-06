@@ -1,0 +1,3 @@
+- name: Converge
+  hosts: all
+- import_playbook: ../../playbooks/my_playbook.yml

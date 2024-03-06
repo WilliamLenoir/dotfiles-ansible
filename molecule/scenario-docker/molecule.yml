@@ -1,0 +1,27 @@
+scenario:
+  name: scenario-docker
+driver:
+  name: docker
+platforms:
+  - name: my-laptop
+    image: ubuntu-test
+    pre_build_image: true
+    privileged: True
+    volume_mounts:
+    environment:
+      container: docker
+provisioner:
+  name: ansible
+  ansible_args:
+    - --skip-tags=to_ignore
+  inventory:
+    links:
+      group_vars: ../../inventory/envs/docker/group_vars/
+      host_vars: ../../inventory/envs/docker/host_vars/
+      hosts: ../../inventory/envs/docker/inventory_molecule.yml
+  env:
+    ANSIBLE_CONFIG: ../../ansible.cfg
+    ANSIBLE_ROLES_PATH: ../../roles
+    MOLECULE_TEST: true
+verifier:
+  name: ansible

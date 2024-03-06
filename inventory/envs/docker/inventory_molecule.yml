@@ -1,0 +1,6 @@
+# You have to use this inventory in your molecule docker scenario
+laptops:
+  hosts:
+    my-laptop:
+# do not add localhost connection here
+# so that molecule will use docker

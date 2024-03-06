@@ -1,0 +1,5 @@
+---
+
+# All the variables here are available for the host my-laptop
+
+config_install_dir: "{{ lookup('env', 'HOME') }}"

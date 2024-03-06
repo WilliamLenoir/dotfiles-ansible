@@ -1,0 +1,6 @@
+# You can use this inventory to run playbook on your local machine
+laptops:
+  hosts:
+    my-laptop:
+      ansible_host: localhost
+      ansible_connection: local

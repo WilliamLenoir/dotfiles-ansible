@@ -1,0 +1,37 @@
+# tasks file for nvim
+
+- name: Remove neovim
+  shell: rm -rf ~/neovim
+  tags:
+    - install
+    - neovim
+- name: Clone Neovim
+  ansible.builtin.git:
+    repo: 'https://github.com/neovim/neovim.git'
+    dest: "{{ config_install_dir }}/neovim"
+  tags:
+    - install
+    - neovim
+- name: Build neovim
+  shell: "cd {{ config_install_dir }}/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo"
+  tags:
+    - install
+    - neovim
+- name: Install neovim
+  become: true
+  shell: "cd {{ config_install_dir }}/neovim && make install"
+  tags:
+    - install
+    - neovim
+- name: Create the .config directory
+  ansible.builtin.file:
+    path: "{{ config_install_dir }}/.config"
+    state: directory
+    mode: '0755'
+- name: Clone Dotfiles
+  ansible.builtin.git:
+    repo: 'https://github.com/WilliamLenoir/dotfiles.git'
+    dest: "{{ config_install_dir }}/.config"
+  tags:
+    - install
+    - neovim

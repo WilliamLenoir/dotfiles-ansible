@@ -1,0 +1,6 @@
+# tasks file for kitty
+
+- name: Install kitty
+  apt:
+    name: kitty
+
