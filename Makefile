@@ -86,7 +86,7 @@ login:
 
 install:
 	@echo "⮕  Run the ansible playbook locally"
-	poetry run ansible-playbook -i inventory/envs/localhost/inventory_localhost.yml ./playbooks/my_playbook.yml
+	poetry run ansible-playbook --ask-become-pass -i inventory/envs/localhost/inventory_localhost.yml ./playbooks/my_playbook.yml
 
 ##############################
 # PHYTHON

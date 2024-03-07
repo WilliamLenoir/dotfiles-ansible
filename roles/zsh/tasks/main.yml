@@ -1,40 +1,43 @@
 # tasks file for zsh
 
 - name: Install ZSH
-  apt:
+  package:
     name: zsh
-- name: Change shell to zsh
-  shell: chsh -s $(which zsh)
-- name: Check that the somefile.conf exists
-  stat:
+    state: present
+# - name: Get zsh path
+#   command: which zsh
+#   register: zsh_path_output
+# - name: Ensure zsh is in /etc/shells
+#   become: true
+#   lineinfile:
+#     path: /etc/shells
+#     line: "{{ zsh_path_output.stdout }}"
+#     state: present
+# - name: Change shell to zsh
+#   become: true
+#   shell: "chsh -s {{ zsh_path_output.stdout }}"
+- name: Remove .oh-my-zsh directory
+  ansible.builtin.file:
     path: "{{ config_install_dir }}/.oh-my-zsh"
-  register: oh_my_stats
-
+    state: absent
 - name: Download Oh-My-Zsh
   shell: "curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > {{ config_install_dir }}/.oh-my-installer && chmod +x {{ config_install_dir }}/.oh-my-installer"
-  when: oh_my_stats.stat.exists == False
-
 - name: Install Oh-My-Zsh
   register: result_oh_my_zsh_installer
   shell: "export ZSH={{ config_install_dir }}/.oh-my-zsh && {{ config_install_dir }}/.oh-my-installer --unattended"
-  when: oh_my_stats.stat.exists == False
-
 - name: Oh-My-Zsh Output
   debug:
     msg: "{{ result_oh_my_zsh_installer.stdout }}"
-
 - name: Create zsh symbolic link
   ansible.builtin.file:
     src: "{{ config_install_dir }}/.config/zsh/.zshrc"
     dest: "{{ config_install_dir }}/.zshrc"
     state: link
     force: true
-
 - name: Zsh plugin zsh-syntax-highlighting
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
     dest: "{{ config_install_dir }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-
 - name: Zsh plugin zsh-autosuggestions
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'

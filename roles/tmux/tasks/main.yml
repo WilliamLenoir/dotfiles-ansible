@@ -1,20 +1,25 @@
 # tasks file for tmux
 
 - name: Install tmux
-  apt:
+  package:
     name: tmux
+    state: present
+- name: Remove .tmux directory
+  ansible.builtin.file:
+    path: "{{ config_install_dir }}/.tmux"
+    state: absent
 - name: Create the .tmux directory
   ansible.builtin.file:
-    path: "{{ lookup('env', 'HOME2') }}/.tmux"
+    path: "{{ config_install_dir }}/.tmux"
     state: directory
     mode: '0755'
 - name: Clone tmux package manager tpm
   ansible.builtin.git:
     repo: 'https://github.com/tmux-plugins/tpm'
-    dest: "{{ lookup('env', 'HOME2') }}/.tmux/plugins/tpm"
+    dest: "{{ config_install_dir }}/.tmux/plugins/tpm"
 - name: Create tmux symbolic link
   ansible.builtin.file:
-    src: "{{ lookup('env', 'HOME2') }}/.config/tmux/.tmux.conf"
-    dest: "{{ lookup('env', 'HOME2') }}/.tmux.conf"
+    src: "{{ config_install_dir }}/.config/tmux/.tmux.conf"
+    dest: "{{ config_install_dir }}/.tmux.conf"
     state: link
     force: true

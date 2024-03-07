@@ -1,7 +1,13 @@
 # tasks file for nvim
 
-- name: Remove neovim
-  shell: rm -rf ~/neovim
+- name: install cmake
+  package:
+    name: cmake
+    state: present
+- name: Remove neovim directory
+  ansible.builtin.file:
+    path: "{{ config_install_dir }}/neovim"
+    state: absent
   tags:
     - install
     - neovim
@@ -20,6 +26,26 @@
 - name: Install neovim
   become: true
   shell: "cd {{ config_install_dir }}/neovim && make install"
+  tags:
+    - install
+    - neovim
+- name: Check if .config directory exists
+  ansible.builtin.stat:
+    path: "{{ config_install_dir }}/.config/"
+  register: config_stat
+- name: Copy entire .config directory
+  ansible.builtin.copy:
+    src: "{{ config_install_dir }}/.config/"
+    dest: "{{ config_install_dir }}/.config_backup_{{ ansible_date_time.date }}/"
+    remote_src: true
+    mode: '0755'
+  vars:
+    ansible_date_time_format: "%Y-%m-%d"
+  when: config_stat.stat.exists
+- name: Remove .config directory
+  ansible.builtin.file:
+    path: "{{ config_install_dir }}/.config"
+    state: absent
   tags:
     - install
     - neovim

@@ -1,18 +1,23 @@
-- name: Test new role from within this playbook
-  become: true
+- name: Pre tasks
   hosts: my-laptop
   gather_facts: true # mandatory to define the OS type
+  pre_tasks:
+    - name: Determine if we should become root
+      set_fact:
+        should_be_root: "{{ ansible_os_family == 'Debian' or ansible_os_family == 'RedHat' }}"
+- name: Setup a new laptop
+  hosts: my-laptop
+  gather_facts: true # mandatory to define the OS type
+  become: "{{should_be_root}}"
   vars_files:
     - ../vars/common.yml
   tasks:
-    - name: Update the packages cache
-      apt:
-        update_cache: true
-
-    - name: Upgrade the packages
-      apt:
-        upgrade: full
-
+    - name: Check if running as root
+      debug:
+        msg: "Running as root: {{ should_be_root }}"
+    - name: Display current user used by Ansible
+      debug:
+        msg: "Current user used by Ansible: {{ ansible_env.USER }}"
     - ansible.builtin.include_role:
         name: nvim
     - ansible.builtin.include_role:
@@ -28,4 +33,3 @@
     - ansible.builtin.include_role:
         name: tools
       when: ansible_os_family == "Darwin" # install for Mac OS only
-

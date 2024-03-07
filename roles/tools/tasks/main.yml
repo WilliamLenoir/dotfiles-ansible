@@ -9,37 +9,31 @@
     path: "{{ config_install_dir }}/repos"
     state: directory
     mode: '0755'
-
 - name: Create the tools directory
   ansible.builtin.file:
     path: "{{ config_install_dir }}/tools"
     state: directory
     mode: '0755'
-
 - name: Create the notes directory
   ansible.builtin.file:
     path: "{{ config_install_dir }}/notes"
     state: directory
     mode: '0755'
-
 #########################
 # Languages
 #########################
-
 - name: Install go
-  apt:
+  package:
     name: go
-
+    state: present
 - name: Install node
-  apt:
+  package:
     name: node
-
+    state: present
 - name: Install typescript
   shell: "npm install typescript --save-dev"
-
 #########################
 # Tools
 #########################
-
 - name: Install nom RSS Reader
   shell: "go install github.com/guyfedwards/nom/cmd/nom@latest"
