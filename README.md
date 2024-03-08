@@ -7,6 +7,9 @@ Some tools like kitty and fzf are installed for MAC only.
 
 ```bash
 # If you are on MAC
+# install brew
+zsh
+source .env
 make
 # or make all
 

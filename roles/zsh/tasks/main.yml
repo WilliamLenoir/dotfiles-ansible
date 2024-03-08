@@ -42,3 +42,5 @@
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
     dest: "{{ config_install_dir }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+- name: Git reset to prevent any change on .zshrc
+  shell: "cd {{ config_install_dir }}/.config && git reset --hard"
