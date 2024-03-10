@@ -23,3 +23,4 @@
     dest: "{{ config_install_dir }}/.tmux.conf"
     state: link
     force: true
+    mode: '0755'
