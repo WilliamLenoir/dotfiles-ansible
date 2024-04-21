@@ -13,6 +13,7 @@ DOCKERFILE_PATH=./molecule/scenario-docker/Dockerfile
 # Default command
 # you can run it with 'make' or with 'make all'
 all: easy-setup-python poetry-install install
+
 all-linux: easy-setup-python-linux poetry-install install
 
 # The development platform
@@ -106,3 +107,17 @@ poetry-install:
 
 poetry-shell:
 	poetry shell
+
+##############################
+# GIT REMOTES
+##############################
+
+# change to http (this is the default)
+git_http:
+	git remote set-url origin https://github.com/WilliamLenoir/dotfiles-ansible.git
+	git remote -v
+
+# change to ssh
+git_ssh:
+	git remote set-url origin git@github.com:WilliamLenoir/dotfiles-ansible.git
+	git remote -v
