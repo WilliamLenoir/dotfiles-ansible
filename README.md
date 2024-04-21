@@ -7,14 +7,23 @@ Some tools like kitty and fzf are installed for MAC only.
 
 ```bash
 # If you are on MAC
-# install brew
-zsh
-source .env
-make
-# or make all
 
-# If you are on Linux
-make all-linux
+# 1. Install brew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 2. Ensure that you are using zsh (and not bash)
+zsh
+
+# 3. Ensure that you have the required PATH for the tools used by ansible
+source .env
+
+# 4. Launch the installation
+make
+
+---
+
+# NB: If you are on Linux, do not use make, but use make all-linux instead :
+# make all-linux
 ```
 
 ## Details
@@ -71,4 +80,3 @@ make destroy
 make build-localhost
 make run-localhost
 ```
-
