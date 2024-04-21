@@ -37,3 +37,13 @@
 #########################
 - name: Install nom RSS Reader
   shell: "go install github.com/guyfedwards/nom/cmd/nom@latest"
+
+- name: Install task warrior
+  package:
+    name: tasksh
+    state: present
+
+- name: "Install vit (UI for task warrior)"
+  package:
+    name: vit
+    state: present
